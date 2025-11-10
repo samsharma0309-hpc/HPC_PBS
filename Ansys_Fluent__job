@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N fluent_job
+#PBS -q default
+#PBS -l nodes=1:ppn=64
+#PBS -o fluent.out
+#PBS -e fluent.err
+ 
+
+export HOME=/home/$USER
+module load fluent/23.2
+module load intel/2018
+ 
+
+/app/Ansys_install/v232/fluent/bin/fluent 3ddp -mpi=intel2018 -gu -driver null -t64 -cflush -i Description_series.jou
