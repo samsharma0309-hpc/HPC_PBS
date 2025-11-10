@@ -1,0 +1,1 @@
+secho "sleep 10; hostname" | qsub -q queue36 -l select=2:ncpus=36
