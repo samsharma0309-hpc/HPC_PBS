@@ -1,0 +1,14 @@
+
+#!/bin/bash
+#PBS -N fluent_job
+#PBS -q GPU
+#PBS -l nodes=1:ppn=64
+#PBS -o fluent.out
+#PBS -e fluent.err
+ 
+# Set environment
+export HOME=/home/$USER
+module load fluent/23.2
+module load intel/2018
+
+/app/Ansys_install/v242/fluent/bin/fluent 3ddp -mpi=intel2018 -gu -driver null -scheduler=pbs -scheduler_queue=GPU -scheduler_headnode=10.100.2 -gpu=1 -t1 -cflush -i Description.jou
