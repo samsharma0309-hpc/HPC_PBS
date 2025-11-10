@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Set variables
+HEADNODE="headnodehn1"
+COMPUTE_NODE="computecn"
+SOURCE_DIR="/var/log/sa/"
+DEST_BASE="/app/home/samsharma"
+DATE=$(date +%Y%m%d)
+DEST_DIR="${DEST_BASE}/${COMPUTE_NODE}_${DATE}"
+CSV_DIR="${DEST_BASE}/csvfile_${COMPUTE_NODE}_${DATE}"
+
+# Script is running on headnode
+if [[ "$(hostname)" != "${HEADNODE}" ]]; then
+    echo "Error: This script must run on ${HEADNODE}"
+    exit 1
+fi
+
+
+mkdir -p "${DEST_DIR}"
+if [[ $? -ne 0 ]]; then
+    echo "Error: Failed to create directory ${DEST_DIR}"
+    exit 1
+fi
+
+# Copy files from compute node to headnode
+scp -r "${COMPUTE_NODE}:${SOURCE_DIR}/*" "${DEST_DIR}/"
+if [[ $? -ne 0 ]]; then
+    echo "Error: Failed to copy files from ${COMPUTE_NODE}:${SOURCE_DIR}"
+    exit 1
